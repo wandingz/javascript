@@ -29,3 +29,12 @@ timer();
 function shift(s) {
     status = s;
 }
+
+function pause() {
+    var pause = 'pause';
+    if(status.startsWith(pause)){
+        status = status.slice(pause.length)
+    }else {
+        status = pause + status;
+    }
+}
