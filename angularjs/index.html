@@ -1,0 +1,23 @@
+<html>
+
+<head>
+    <script src="https://code.angularjs.org/1.5.5/angular.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+    <div ng-app="App">
+        <div ng-controller="FirstCtrl">
+            <input type="text" ng-model="asdf" />
+            <p ng-bind="asdf"></p>
+            <div>{{"a" + data.message}}, {{"a" + data.list}}, {{"a" + data.name}}, {{"a" + data.id}}</div>
+            <div>{{"data: " + data}}</div>
+            <div ng-repeat="l in data.list">
+                <p>{{l}}</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
