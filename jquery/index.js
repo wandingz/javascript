@@ -108,10 +108,11 @@ function edit_post_submit() {
     console.log(postId);
     if (postId) {
         for (var post of data.posts) if (post.id === postId) {
-            post.userId = jQuery('#edit_post_userId').val();
+            post.userId = parseInt(jQuery('#edit_post_userId').val());
             post.title = jQuery('#edit_post_title').val();
             post.body = jQuery('#edit_post_body').val();
         }
+        saveData(data, { post: {id: postId, type: 'edit'} });
     } else {
         postId = data.posts.length + 1;
         data.posts.push({
@@ -120,8 +121,8 @@ function edit_post_submit() {
             title: jQuery('#edit_post_title').val(),
             body: jQuery('#edit_post_body').val(),
         });
+        saveData(data, { post: {id: postId, type: 'create'} });
     }
-    saveData(data, { post: {id: postId, type: 'create'} });
     jQuery("#edit_post").hide();
 }
 
