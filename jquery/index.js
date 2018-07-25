@@ -1,21 +1,70 @@
 var localStorage = window.localStorage;
 var data = {};
 
+function renderComment(dom_id, c) {
+    jQuery(dom_id).html("");
+    jQuery(dom_id).append(div('comment_name', undefined, c.name))
+        .append(div('comment_email', undefined, c.email))
+        .append(div('comment_body', undefined, c.body))
+        .append(button('comment_like', undefined, 'Like!', "likeComment(" + c.id + ")"))
+        .append(button('post_delete_comments', undefined, 'Delete Comments', "deleteComment(" + c.id + ")"));
+    if (c.liked) {
+        jQuery(dom_id + ">.comment_like").attr("disabled", true)
+            .val("Liked");
+    }
+}
 
-function saveData(data) {
+function renderPost(dom_id, post) {
+    jQuery(dom_id).html("");
+    jQuery(dom_id).append(div('post_id', undefined, post.id))
+        .append(div('post_User', undefined, (data.users.find(u => u.id === post.userId) || {}).name))
+        .append(div('post_title', undefined, post.title))
+        .append(div('post_body', undefined, post.body))
+        .append(button('post_edit_post', undefined, 'Edit Post', "editPost(" + post.id + ")"))
+        .append(button('post_delete_post', undefined, 'Delete Post', "deletePost(" + post.id + ")"))
+        .append(button('post_show_comments', undefined, 'Show Comments', "showComments(" + post.id + ")"))
+        .append(button('post_create_comments', undefined, 'Create Comments', "createComments(" + post.id + ")"));
+    // console.log(data.comments)
+}
+
+function saveData(data, changed) {
     localStorage.setItem('data', JSON.stringify(data));
-    location.reload();
+    if(changed) {
+        if(changed.comment) {
+            // create new
+            console.log(changed.comment)
+            var c = data.comments.filter(c => c.id === changed.comment)[0];
+            console.log(c)
+            jQuery('#postid_' + c.postId + ">.post_comments").append(div('comment', 'commentid_' + c.id));
+            renderComment('#commentid_' + c.id, c);
+        }
+        if(changed.post) {
+            var post = data.posts.filter(post => post.id === changed.post)[0];
+            if(jQuery('#postid_' + post.postId).length) {
+                // edit
+                renderPost('postid_' + post.id, post);
+            }else {
+                // create new
+                jQuery('#posts').append(div('post', 'postid_' + post.id));
+                renderPost('#postid_' + post.id, post);
+            }
+        }
+    }else {
+        location.reload();
+    }
 }
 
 function edit_comment_submit() {
+    var id = data.comments.length + 1;
     data.comments.push({
         postId: parseInt(jQuery('#edit_comment_post_id').attr("value")),
-        id: data.comments.length + 1,
+        id: id,
         name: jQuery('#edit_comment_name').val(),
         email: jQuery('#edit_comment_email').val(),
         body: jQuery('#edit_comment_body').val(),
     });
-    saveData(data);
+    saveData(data, {comment: id});
+    jQuery("#edit_comment").hide();
 }
 
 function edit_comment_cancel() {
@@ -31,17 +80,17 @@ function edit_post_submit() {
             post.title = jQuery('#edit_post_title').val();
             post.body = jQuery('#edit_post_body').val();
         }
+        saveData(data, {post: postid});
     } else {
-        var obj = {
+        data.posts.push({
             userId: parseInt(jQuery('#edit_post_userId').val()),
             id: data.posts.length + 1,
             title: jQuery('#edit_post_title').val(),
             body: jQuery('#edit_post_body').val(),
-        };
-        console.log(obj);
-        data.posts.push(obj);
+        });
+        saveData(data);
     }
-    saveData(data);
+    jQuery("#edit_post").hide();
 }
 
 function edit_post_cancel() {
@@ -83,15 +132,7 @@ function showComments(postid) {
     jQuery('#postid_' + postid).append(div('post_comments'));
     data.comments.filter(c => c.postId === postid).filter(c => !c.deleted).forEach(c => {
         jQuery('#postid_' + postid + ">.post_comments").append(div('comment', 'commentid_' + c.id));
-        jQuery('#commentid_' + c.id).append(div('comment_name', undefined, c.name))
-            .append(div('comment_email', undefined, c.email))
-            .append(div('comment_body', undefined, c.body))
-            .append(button('comment_like', undefined, 'Like!', "likeComment(" + c.id + ")"))
-            .append(button('post_delete_comments', undefined, 'Delete Comments', "deleteComment(" + c.id + ")"));
-        if (c.liked) {
-            jQuery('#commentid_' + c.id + ">.comment_like").attr("disabled", true)
-                .val("Liked");
-        }
+        renderComment('#commentid_' + c.id, c);
     });
 }
 
@@ -104,20 +145,12 @@ function loadData(data, n) {
     jQuery("#fetch").hide();
     // console.log(JSON.stringify(data));
     if (!this.current) this.current = 0;
-    console.log(this.current);
+    // console.log(this.current);
     data.posts.filter(post => !post.deleted).slice(this.current, this.current + n).forEach(post => {
         // console.log(post);
         this.current += 1;
         jQuery('#posts').append(div('post', 'postid_' + post.id));
-        jQuery('#postid_' + post.id).append(div('post_id', undefined, post.id))
-            .append(div('post_User', undefined, (data.users.find(u => u.id === post.userId) || {}).name))
-            .append(div('post_title', undefined, post.title))
-            .append(div('post_body', undefined, post.body))
-            .append(button('post_edit_post', undefined, 'Edit Post', "editPost(" + post.id + ")"))
-            .append(button('post_delete_post', undefined, 'Delete Post', "deletePost(" + post.id + ")"))
-            .append(button('post_show_comments', undefined, 'Show Comments', "showComments(" + post.id + ")"))
-            .append(button('post_create_comments', undefined, 'Create Comments', "createComments(" + post.id + ")"));
-        // console.log(data.comments)
+        renderPost('#postid_' + post.id, post);
     });
 }
 
