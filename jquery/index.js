@@ -32,7 +32,7 @@ function renderComment(dom_id, c) {
 
 function renderPost(dom_id, post) {
     var post_comments = undefined;
-    if(jQuery(dom_id + ">.post_comments").length) {
+    if (jQuery(dom_id + ">.post_comments").length) {
         post_comments = jQuery(dom_id + ">.post_comments");
     }
     jQuery(dom_id).html("");
@@ -60,28 +60,24 @@ function saveData(data, changed) {
     if (changed) {
         if (changed.comment) {
             // console.log(changed.comment)
-            var c = data.comments.filter(c => c.id === changed.comment)[0];
-            if (!c.deleted) {
-                // create new
-                // console.log(c)
+            var c = data.comments.filter(c => c.id === changed.comment.id)[0];
+            if (changed.comment.type === 'create') {
                 jQuery('#postid_' + c.postId + ">.post_comments").append(div('comment', 'commentid_' + c.id));
                 renderComment('#commentid_' + c.id, c);
-            } else {
-                //delete
+            } else if (changed.comment.type === 'edit') {
+                renderComment('#commentid_' + c.id, c);
+            } else if (changed.comment.type === 'delete') {
                 jQuery('#commentid_' + c.id).remove();
             }
         }
         if (changed.post) {
-            var post = data.posts.filter(post => post.id === changed.post)[0];
-            if (!jQuery('#postid_' + post.id).length) {
-                // create new
+            var post = data.posts.filter(post => post.id === changed.post.id)[0];
+            if (changed.post.type === 'create') {
                 jQuery('#posts').append(div('post', 'postid_' + post.id));
                 renderPost('#postid_' + post.id, post);
-            } else if (!post.deleted) {
-                // edit
+            } else if (changed.post.type === 'edit') {
                 renderPost('#postid_' + post.id, post);
-            } else {
-                //delete
+            } else if (changed.post.type === 'delete') {
                 jQuery('#postid_' + post.id).remove();
             }
         }
@@ -99,7 +95,7 @@ function edit_comment_submit() {
         email: jQuery('#edit_comment_email').val(),
         body: jQuery('#edit_comment_body').val(),
     });
-    saveData(data, { comment: id });
+    saveData(data, { comment: {id: id, type: 'create'} });
     jQuery("#edit_comment").hide();
 }
 
@@ -125,7 +121,7 @@ function edit_post_submit() {
             body: jQuery('#edit_post_body').val(),
         });
     }
-    saveData(data, { post: postId });
+    saveData(data, { post: {id: postId, type: 'create'} });
     jQuery("#edit_post").hide();
 }
 
@@ -151,22 +147,22 @@ function createPost() {
 
 function deletePost(postid) {
     data.posts.filter(p => p.id === postid).forEach(p => p.deleted = true);
-    saveData(data, { post: postid });
+    saveData(data, { post: {id: postid, type: 'delete'} });
 }
 
 function likePost(postid) {
     data.posts.filter(p => p.id === postid).forEach(p => p.liked = true);
-    saveData(data, { post: postid });
+    saveData(data, { post: {id: postid, type: 'edit'} });
 }
 
 function deleteComment(commentid) {
     data.comments.filter(c => c.id === commentid).forEach(c => c.deleted = true);
-    saveData(data, { comment: commentid });
+    saveData(data, { comment: {id: commentid, type: 'delete'} });
 }
 
 function likeComment(commentid) {
     data.comments.filter(c => c.id === commentid).forEach(c => c.liked = true);
-    saveData(data, { comment: commentid });
+    saveData(data, { comment: {id: commentid, type: 'edit'} });
 }
 
 function showComments(postid) {
