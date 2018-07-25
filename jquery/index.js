@@ -73,6 +73,10 @@ function deleteComment(commentid) {
     data.comments.filter(c => c.id === commentid).forEach(c => c.deleted = true);
     saveData(data);
 }
+function likeComment(commentid) {
+    data.comments.filter(c => c.id === commentid).forEach(c => c.liked = true);
+    saveData(data);
+}
 
 function showComments(postid) {
     jQuery('#postid_' + postid + ">.post_show_comments").attr("disabled", true);
@@ -82,7 +86,12 @@ function showComments(postid) {
         jQuery('#commentid_' + c.id).append(div('comment_name', undefined, c.name))
             .append(div('comment_email', undefined, c.email))
             .append(div('comment_body', undefined, c.body))
+            .append(button('comment_like', undefined, 'Like!', "likeComment(" + c.id + ")"))
             .append(button('post_delete_comments', undefined, 'Delete Comments', "deleteComment(" + c.id + ")"));
+        if (c.liked) {
+            jQuery('#commentid_' + c.id + ">.comment_like").attr("disabled", true)
+                .val("Liked");
+        }
     });
 }
 
@@ -94,7 +103,7 @@ function createComments(postid) {
 function loadData(data, n) {
     jQuery("#fetch").hide();
     // console.log(JSON.stringify(data));
-    if(!this.current) this.current = 0;
+    if (!this.current) this.current = 0;
     // console.log(this.current);
     data.posts.filter(post => !post.deleted).slice(this.current, this.current + n).forEach(post => {
         // console.log(post);
@@ -160,7 +169,7 @@ function clearButtonClick() {
 jQuery(() => {
     jQuery(window).on('scroll', function () {
         // console.log($(this).scrollTop(), $(this).innerHeight(), window.innerHeight);
-        if ($(this).scrollTop() + window.innerHeight >= $(this).innerHeight() ) {
+        if ($(this).scrollTop() + window.innerHeight >= $(this).innerHeight()) {
             loadData(data, 20);
         }
     })
