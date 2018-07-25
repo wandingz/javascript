@@ -31,16 +31,28 @@ function renderComment(dom_id, c) {
 }
 
 function renderPost(dom_id, post) {
+    var post_comments = undefined;
+    if(jQuery(dom_id + ">.post_comments").length) {
+        post_comments = jQuery(dom_id + ">.post_comments");
+    }
     jQuery(dom_id).html("");
     jQuery(dom_id).append(div('post_id', undefined, post.id))
         .append(div('post_User', undefined, (data.users.find(u => u.id === post.userId) || {}).name))
         .append(div('post_title', undefined, post.title))
         .append(div('post_body', undefined, post.body))
+        .append(button('post_like', undefined, 'Like!', "likePost(" + post.id + ")"))
         .append(button('post_edit_post', undefined, 'Edit Post', "editPost(" + post.id + ")"))
         .append(button('post_delete_post', undefined, 'Delete Post', "deletePost(" + post.id + ")"))
         .append(button('post_show_comments', undefined, 'Show Comments', "showComments(" + post.id + ")"))
         .append(button('post_create_comments', undefined, 'Create Comments', "createComments(" + post.id + ")"));
     // console.log(data.comments)
+    if (post.liked) {
+        jQuery(dom_id + ">.post_like").attr("disabled", true)
+            .val("Liked");
+    }
+    if (post_comments) {
+        jQuery(dom_id).append(post_comments);
+    }
 }
 
 function saveData(data, changed) {
@@ -142,10 +154,16 @@ function deletePost(postid) {
     saveData(data, { post: postid });
 }
 
+function likePost(postid) {
+    data.posts.filter(p => p.id === postid).forEach(p => p.liked = true);
+    saveData(data, { post: postid });
+}
+
 function deleteComment(commentid) {
     data.comments.filter(c => c.id === commentid).forEach(c => c.deleted = true);
     saveData(data, { comment: commentid });
 }
+
 function likeComment(commentid) {
     data.comments.filter(c => c.id === commentid).forEach(c => c.liked = true);
     saveData(data, { comment: commentid });
