@@ -104,12 +104,13 @@ function loadData(data, n) {
     jQuery("#fetch").hide();
     // console.log(JSON.stringify(data));
     if (!this.current) this.current = 0;
-    // console.log(this.current);
+    console.log(this.current);
     data.posts.filter(post => !post.deleted).slice(this.current, this.current + n).forEach(post => {
         // console.log(post);
+        this.current += 1;
         jQuery('#posts').append(div('post', 'postid_' + post.id));
         jQuery('#postid_' + post.id).append(div('post_id', undefined, post.id))
-            .append(div('post_User', undefined, data.users.find(u => u.id === post.userId).name))
+            .append(div('post_User', undefined, (data.users.find(u => u.id === post.userId) || {}).name))
             .append(div('post_title', undefined, post.title))
             .append(div('post_body', undefined, post.body))
             .append(button('post_edit_post', undefined, 'Edit Post', "editPost(" + post.id + ")"))
@@ -118,7 +119,6 @@ function loadData(data, n) {
             .append(button('post_create_comments', undefined, 'Create Comments', "createComments(" + post.id + ")"));
         // console.log(data.comments)
     });
-    this.current += n;
 }
 
 function fetchData(url, category) {
