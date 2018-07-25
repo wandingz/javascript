@@ -1,6 +1,22 @@
 var localStorage = window.localStorage;
 var data = {};
 
+function div(classname, id, innerHtml) {
+    return $(document.createElement('div'))
+        .addClass(classname)
+        .attr('id', id)
+        .html(innerHtml)
+}
+
+function button(classname, id, value, onclick) {
+    return $(document.createElement('input'))
+        .addClass(classname)
+        .attr('id', id)
+        .attr('type', 'button')
+        .attr('value', value)
+        .attr('onclick', onclick)
+}
+
 function renderComment(dom_id, c) {
     jQuery(dom_id).html("");
     jQuery(dom_id).append(div('comment_name', undefined, c.name))
@@ -29,27 +45,35 @@ function renderPost(dom_id, post) {
 
 function saveData(data, changed) {
     localStorage.setItem('data', JSON.stringify(data));
-    if(changed) {
-        if(changed.comment) {
-            // create new
-            console.log(changed.comment)
+    if (changed) {
+        if (changed.comment) {
+            // console.log(changed.comment)
             var c = data.comments.filter(c => c.id === changed.comment)[0];
-            console.log(c)
-            jQuery('#postid_' + c.postId + ">.post_comments").append(div('comment', 'commentid_' + c.id));
-            renderComment('#commentid_' + c.id, c);
+            if (!c.deleted) {
+                // create new
+                // console.log(c)
+                jQuery('#postid_' + c.postId + ">.post_comments").append(div('comment', 'commentid_' + c.id));
+                renderComment('#commentid_' + c.id, c);
+            } else {
+                //delete
+                jQuery('#commentid_' + c.id).remove();
+            }
         }
-        if(changed.post) {
+        if (changed.post) {
             var post = data.posts.filter(post => post.id === changed.post)[0];
-            if(jQuery('#postid_' + post.postId).length) {
-                // edit
-                renderPost('postid_' + post.id, post);
-            }else {
+            if (!jQuery('#postid_' + post.id).length) {
                 // create new
                 jQuery('#posts').append(div('post', 'postid_' + post.id));
                 renderPost('#postid_' + post.id, post);
+            } else if (!post.deleted) {
+                // edit
+                renderPost('#postid_' + post.id, post);
+            } else {
+                //delete
+                jQuery('#postid_' + post.id).remove();
             }
         }
-    }else {
+    } else {
         location.reload();
     }
 }
@@ -63,7 +87,7 @@ function edit_comment_submit() {
         email: jQuery('#edit_comment_email').val(),
         body: jQuery('#edit_comment_body').val(),
     });
-    saveData(data, {comment: id});
+    saveData(data, { comment: id });
     jQuery("#edit_comment").hide();
 }
 
@@ -72,24 +96,24 @@ function edit_comment_cancel() {
 }
 
 function edit_post_submit() {
-    var postid = parseInt(jQuery('#edit_post_id').val());
-    console.log(postid);
-    if (postid) {
-        for (var post of data.posts) if (post.id === postid) {
+    var postId = parseInt(jQuery('#edit_post_id').val());
+    console.log(postId);
+    if (postId) {
+        for (var post of data.posts) if (post.id === postId) {
             post.userId = jQuery('#edit_post_userId').val();
             post.title = jQuery('#edit_post_title').val();
             post.body = jQuery('#edit_post_body').val();
         }
-        saveData(data, {post: postid});
     } else {
+        postId = data.posts.length + 1;
         data.posts.push({
             userId: parseInt(jQuery('#edit_post_userId').val()),
-            id: data.posts.length + 1,
+            id: postId,
             title: jQuery('#edit_post_title').val(),
             body: jQuery('#edit_post_body').val(),
         });
-        saveData(data);
     }
+    saveData(data, { post: postId });
     jQuery("#edit_post").hide();
 }
 
@@ -115,16 +139,16 @@ function createPost() {
 
 function deletePost(postid) {
     data.posts.filter(p => p.id === postid).forEach(p => p.deleted = true);
-    saveData(data);
+    saveData(data, { post: postid });
 }
 
 function deleteComment(commentid) {
     data.comments.filter(c => c.id === commentid).forEach(c => c.deleted = true);
-    saveData(data);
+    saveData(data, { comment: commentid });
 }
 function likeComment(commentid) {
     data.comments.filter(c => c.id === commentid).forEach(c => c.liked = true);
-    saveData(data);
+    saveData(data, { comment: commentid });
 }
 
 function showComments(postid) {
