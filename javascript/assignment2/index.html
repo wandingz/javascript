@@ -5,16 +5,32 @@
 </head>
 
 <body>
-    <form action="" method="get">
-        <p>Username: <input type="text" name="name" /></p>
-        <p>Password: <input type="password" name="pswd" /></p>
-        <p>First Name: <input type="text" name="first_fname" /></p>
-        <p>Last Name: <input type="text" name="last_name" /></p>
-        <p>Email: <input type="text" name="last_name" /></p>
-        <p>Gender: <input type="text" name="last_name" /></p>
-        <p>Location: <input type="text" name="last_name" /></p>
+    <form action="/" method="get" id='myForm'>
+        <div id='name'><input type="text" name="name" placeholder="Username" /></div>
+        <div id='pswd'><input type="password" name="pswd" placeholder="Password" /></div>
+        <div id='first_name'><input type="text" name="first_name" placeholder="First Name" /></div>
+        <div id='last_name'><input type="text" name="last_name" placeholder="Last Name" /></div>
+        <div id='email'><input type="text" name="email" placeholder="Email" /></div>
+        <div id='gender'>
+            <input type="radio" name="gender" value="male"> Male
+            <input type="radio" name="gender" value="female"> Female
+            <input type="radio" name="gender" value="other"> Other
+        </div>
+        <div id='location'><input type="text" name="location" placeholder="Location" /></div>
         <input type="submit" value="Save" />
     </form>
+    <table border="1" id='myTable'>
+        <tr>
+            <th>Username</th>
+            <th>Password</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Location</th>
+        </tr>
+    </table>
+    <script src="index.js"></script>
 </body>
 
 </html>
