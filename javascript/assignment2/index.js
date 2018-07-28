@@ -12,11 +12,11 @@ function appendtable(User) {
     document.getElementById('myTable').appendChild(tr);
 }
 
-var data = JSON.parse(localStorage.getItem('data') || "[]");
-// if (!data) {
-//     data = []
-//     localStorage.setItem('data', JSON.stringify(data));
-// }
+try {
+    var data = JSON.parse(localStorage.getItem('data') || "[]");
+}catch {
+    var data = [];
+}
 data.forEach(d => appendtable(d));
 
 document.getElementById("myForm").addEventListener("submit", formSubmit);
