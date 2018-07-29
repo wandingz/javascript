@@ -1,71 +1,21 @@
 <html>
 
 <head>
-    <script src="angular.js"></script>
+    <script src="libs/angular.1.5.5.js"></script>
+    <script src="libs/angular-route.js"></script>
     <script src="index.js"></script>
+    <script src="templates/home.js"></script>
+    <script src="templates/login.js"></script>
+    <script src="templates/signup.js"></script>
+    <script src="templates/messageList.js"></script>
+    <script src="templates/messageDetail.js"></script>
+    <script src="templates/profile.js"></script>
     <link rel="stylesheet" href="index.css" />
 </head>
 
 <body>
     <div ng-app="myapp">
-        <div ng-controller="FirstCtrl">
-            <div>
-                <input type="button" id='create_post' value="Create Post" ng-click="createPost()" /> {{data.loaded}}
-            </div>
-            <div id='posts'>
-
-                <div class="post" ng-repeat="post in data.posts" ng-if="!post.deleted" id="{{post.id}}">
-                    <div class="post_id">{{post.id}}</div>
-                    <div class="post_User">{{post.user.name}}</div>
-                    <div class="post_title">{{post.title}}</div>
-                    <div class="post_body">{{post.body}}</div>
-                    <input class="post_like" type="button" value="Like!" ng-disabled="post.liked" ng-click="addTag(post, 'liked')" />
-                    <input class="post_edit_post" type="button" value="Edit Post" ng-click="editPost(post)" />
-                    <input class="post_delete_post" type="button" value="Delete Post" ng-click="addTag(post, 'deleted')" />
-                    <input class="post_show_comments" type="button" value="Show Comments" ng-disabled='post.showComments' ng-click="post.showComments = true"
-                    />
-                    <input class="post_create_comments" type="button" value="Create Comments" ng-click="createComments(post)" />
-
-                    <div class="post_comments" ng-style="post.showComments ? {'display': 'inline'} : {'display': 'none'}">
-
-                        <div class="comment" ng-repeat="comment in post.comments" ng-if="!comment.deleted" id="commentid_1">
-                            <div class="comment_name">{{comment.name}}</div>
-                            <div class="comment_email">{{comment.email}}</div>
-                            <div class="comment_body">{{comment.body}}</div>
-                            <input class="comment_like" type="button" value="Like!" ng-disabled="comment.liked" ng-click="addTag(comment, 'liked')" />
-                            <input class="post_delete_comments" type="button" value="Delete Comments" ng-click="addTag(comment, 'deleted')" />
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-            <div id='error_messages'></div>
-            <div id='edit_post' class="edit_box" ng-style="editing.post ? {'display': 'inline'} : {'display': 'none'}">
-                <div>
-                    <span>User Id: </span><input type="text" id="edit_post_userId" value="{{editing.post.userId}}" ng-model="editing.post.userId" />
-                    <br />
-                    <span>Title: </span><input type="text" id="edit_post_title" value="{{editing.post.title}}" ng-model="editing.post.title" />
-                    <br />
-                    <span>Description: </span><input type="text" id="edit_post_body" value="{{editing.post.body}}" ng-model="editing.post.body" />
-                    <br /><br />
-                    <input type="button" value="Submit" ng-click="editing.post.submit()" />
-                    <input type="button" value="Cancel" ng-click="edit_cancel()" />
-                </div>
-            </div>
-            <div id='edit_comment' class="edit_box" ng-style="editing.comment ? {'display': 'inline'} : {'display': 'none'}">
-                <div>
-                    <span>Name: </span><input type="text" id="edit_comment_name" value="{{editing.comment.name}}" ng-model="editing.comment.name" />
-                    <br />
-                    <span>Email: </span><input type="text" id="edit_comment_email" value="{{editing.comment.email}}" ng-model="editing.comment.email" />
-                    <br />
-                    <span>Description: </span><input type="text" id="edit_comment_body" value="{{editing.comment.body}}" ng-model="editing.comment.body" />
-                    <br /><br />
-                    <input type="button" value="Submit" ng-click="editing.comment.submit()" />
-                    <input type="button" value="Cancel" ng-click="edit_cancel()" />
-                </div>
-            </div>
-        </div>
+        <div class="ng-view"></div>
     </div>
 </body>
 
