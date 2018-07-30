@@ -1,11 +1,11 @@
 <div>
-    <div id='name'><input type="text" ng-value="form.name" placeholder="Username" /></div>
-    <div id='pswd'><input type="password" ng-value="form.pswd" placeholder="Password" /></div>
-    <div id='first_name'><input type="text" ng-value="form.first_name" placeholder="First Name" /></div>
-    <div id='last_name'><input type="text" ng-value="form.last_name" placeholder="Last Name" /></div>
-    <div id='email'><input type="text" ng-value="form.email" placeholder="Email" /></div>
-    <div id='phone'><input type="text" ng-value="form.phone" placeholder="Phone" /></div>
-    <div id='location'><input type="text" ng-value="form.location" placeholder="Location" /></div>
+    <div id='user'><input type="text" value="{{form.user}}" ng-model="form.user" placeholder="Username" /></div>
+    <div id='pswd'><input type="password" value="{{form.pswd}}" ng-model="form.pswd" placeholder="Password" /></div>
+    <div id='first_name'><input type="text" value="{{form.first_name}}" ng-model="form.first_name" placeholder="First Name" /></div>
+    <div id='last_name'><input type="text" value="{{form.last_name}}" ng-model="form.last_name" placeholder="Last Name" /></div>
+    <div id='email'><input type="text" value="{{form.email}}" ng-model="form.email" placeholder="Email" /></div>
+    <div id='phone'><input type="text" value="{{form.phone}}" ng-model="form.phone" placeholder="Phone" /></div>
+    <div id='location'><input type="text" value="{{form.location}}" ng-model="form.location" placeholder="Location" /></div>
     <input type="button" value="Save" ng-click="signup()"/>
     <div>{{error_message}}</div>
 </div>

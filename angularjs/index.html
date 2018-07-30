@@ -1,21 +1,42 @@
 <html>
 
 <head>
+    <title>Angular JS Assignment</title>
     <script src="libs/angular.1.5.5.js"></script>
     <script src="libs/angular-route.js"></script>
     <script src="index.js"></script>
+    <script src="dataObejcts.js"></script>
+    <script src="dataService.js"></script>
     <script src="templates/home.js"></script>
     <script src="templates/login.js"></script>
     <script src="templates/signup.js"></script>
     <script src="templates/messageList.js"></script>
     <script src="templates/messageDetail.js"></script>
     <script src="templates/profile.js"></script>
-    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
     <div ng-app="myapp">
-        <div class="ng-view"></div>
+
+        <div ng-controller="navBar" class="navBar">
+            <div ng-if="data.user">
+                <div>
+                    <a href="#/profile">Profile</a>
+                    <a href="#/messageList">Messages</a>
+                    <a ng-href="#/login" ng-click="logout()">Logout</a>
+                </div>
+            </div>
+            <div ng-if="!data.user">
+                <div>
+                    <a href="#/login">Login</a>
+                    <a href="#/signup">Sign up</a>
+                </div>
+            </div>
+            <button ng-click="consolelog()" >log</button>
+        </div>
+
+        <div ng-view></div>
     </div>
 </body>
 

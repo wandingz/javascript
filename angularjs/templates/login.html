@@ -1,6 +1,6 @@
 <div>
-    <div id='name'><input type="text" ng-value="form.user" placeholder="Username" /></div>
-    <div id='pswd'><input type="password" ng-value="form.pswd" placeholder="Password" /></div>
+    <div id='user'><input type="text" value="{{form.user}}" ng-model="form.user" placeholder="Username" /></div>
+    <div id='pswd'><input type="password" value="{{form.pswd}}" ng-model="form.pswd" placeholder="Password" /></div>
     <input type="button" value="Login" ng-click="login()" />
     <div>{{error_message}}</div>
 </div>
