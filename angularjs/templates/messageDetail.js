@@ -6,7 +6,6 @@ app.controller("messageDetail", function ($scope, $location, dataService, $route
     dataService.getMessageDetail({index: $routeParams.index}).then(d => {
         $scope.messageList.push(d.data);
         $scope.formReply.recipient = d.data.sender;
-        $scope.formReply.sender = d.data.recipient;
         $scope.formReply.title = "Re: " + d.data.title;
     }).catch(err => {
         $scope.error_message = err;
