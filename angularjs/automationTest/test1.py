@@ -140,6 +140,46 @@ assert driver.find_element_by_xpath('//*[@id="location"]/input').get_attribute('
 ## Fulfill assignment requirement 5                            ##
 #################################################################
 
+# Create some dummy data for test, refresh to load them
+driver.execute_script('window.localStorage.setItem(\'messages\', \'[{"index": "0", "recipient":"zhaoyi","recipient_img":"http://simpleicon.com/wp-content/uploads/user1.png","sender":"User 2","sender_img":"http://simpleicon.com/wp-content/uploads/user1.png","title":"This is a sample message to User 1 to zhaoyi.","description":"This is a sample description to the message which has the above title","created_at":"2017-01-19 09:45:00","important":"0"},{"index": "1", "recipient":"User 1","recipient_img":"http://simpleicon.com/wp-content/uploads/user1.png","sender":"User 2","sender_img":"http://simpleicon.com/wp-content/uploads/user1.png","title":"This is a sample message from User 2 to User 1.","description":"This is a sample description to the message which has the above title","created_at":"2017-01-19 09:45:00","important":"0"},{"index": "2", "recipient":"User 2","recipient_img":"http://simpleicon.com/wp-content/uploads/user1.png","sender":"zhaoyi","sender_img":"http://simpleicon.com/wp-content/uploads/user1.png","title":"This is a sample message from zhaoyi to User 2.","description":"This is a sample description to the message which has the above title","created_at":"2017-01-19 09:45:00","important":"0"}]\');')
+driver.get("http://127.0.0.1:8080/angularjs/")
+
+# Click to go to Messages page
+driver.find_element_by_xpath("//a[contains(text(), 'Messages')]").click()
+assert "http://127.0.0.1:8080/angularjs/#/messageList" == driver.current_url
+
+# Check current list items. Checking dataService.getMessageList()
+m1 = driver.find_elements_by_css_selector(".messageList > div")[0].text
+print m1
+assert 'User 2' in m1
+assert 'zhaoyi' in m1
+assert 'This is a sample message to User 1 to zhaoyi.' in m1
+assert '2017-01-19 09:45:00' in m1
+
+m2 = driver.find_elements_by_css_selector(".messageList > div")[1].text
+print m2
+assert 'User 2' in m2
+assert 'zhaoyi' in m2
+assert 'This is a sample message from zhaoyi to User 2.' in m2
+assert '2017-01-19 09:45:00' in m2
+
+# Go to message_0 detail page
+driver.find_elements_by_css_selector(".messageList > div")[0].click()
+assert "http://127.0.0.1:8080/angularjs/#/messageDetail/0" == driver.current_url
+
+element = driver.find_elements_by_css_selector(".messageDetail > div")
+assert len(element) == 2
+m3 = element[0].text
+assert 'User 2' in m3
+assert 'zhaoyi' in m3
+assert 'This is a sample message to User 1 to zhaoyi.' in m3
+assert 'This is a sample description to the message which has the above title' in m3
+assert '2017-01-19 09:45:00' in m3
+assert '0' in element[0].find_elements_by_css_selector(":nth-child(8)")[0].text
+
+# Mark message_0 as important
+
+
 
 
 # End of test

@@ -1,10 +1,10 @@
 <div class='messageDetail'>
     <a ng-href="#/messageList">Back to Message List</a>
-    <div ng-repeat="message in messageList track by $index">
-        <div>{{message.recipient}}</div>
-        <div><img ng-src="{{message.recipient_img}}" /></div>
+    <div ng-repeat="message in messageList">
         <div>{{message.sender}}</div>
         <div><img ng-src="{{message.sender_img}}" /></div>
+        <div>{{message.recipient}}</div>
+        <div><img ng-src="{{message.recipient_img}}" /></div>
         <div>{{message.title}}</div>
         <div>{{message.description}}</div>
         <div>{{message.created_at}}</div>

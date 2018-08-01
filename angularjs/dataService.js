@@ -1,8 +1,7 @@
 function now() {
     var currentdate = new Date();
-    return currentdate.getFullYear() + '-' + currentdate.getMonth() + '-' + currentdate.getDay() + " "
+    return currentdate.getFullYear() + '-' + (currentdate.getMonth() + 1) + '-' + currentdate.getDate() + " "
         + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-    return datetime;
 }
 
 app.service("dataService", function ($timeout, $http, $q) {
@@ -109,36 +108,7 @@ app.service("dataService", function ($timeout, $http, $q) {
         return Q.promise;
     };
 
-    var testMessageList = [
-        {
-            "recipient":"zhaoyi",
-            "recipient_img":"http://simpleicon.com/wp-content/uploads/user1.png",
-            "sender":"User 2",
-            "sender_img":"http://simpleicon.com/wp-content/uploads/user1.png",
-            "title":"This is a sample message to User 1 to zhaoyi.",
-            "description":"This is a sample description to the message which has the above title",
-            "created_at":"2017-01-19 09:45:00",
-            "important":"0"
-        },{
-            "recipient":"User 1",
-            "recipient_img":"http://simpleicon.com/wp-content/uploads/user1.png",
-            "sender":"User 2",
-            "sender_img":"http://simpleicon.com/wp-content/uploads/user1.png",
-            "title":"This is a sample message from User 2 to User 1.",
-            "description":"This is a sample description to the message which has the above title",
-            "created_at":"2017-01-19 09:45:00",
-            "important":"0"
-        },{
-            "recipient":"User 2",
-            "recipient_img":"http://simpleicon.com/wp-content/uploads/user1.png",
-            "sender":"zhaoyi",
-            "sender_img":"http://simpleicon.com/wp-content/uploads/user1.png",
-            "title":"This is a sample message from zhaoyi to User 2.",
-            "description":"This is a sample description to the message which has the above title",
-            "created_at":"2017-01-19 09:45:00",
-            "important":"0"
-        }
-    ];
+    var testMessageList = [];
     this.messages = [];
     try {
         this.messages = JSON.parse(localStorage.getItem("messages")) || testMessageList;
@@ -146,62 +116,82 @@ app.service("dataService", function ($timeout, $http, $q) {
 
     this.getMessageList = function (obj) {
         var Q = $q.defer();
-        if(this.user && this.user.isValid()) {
+
+        if (this.user && this.user.isValid()) {
             var user = this.user.data.user;
             Q.resolve({
                 status: 'success',
-                data: this.messages.filter(m => m.sender === user || m.recipient === user),
+                data: this.messages.filter(m => m.sender === user || m.recipient === user).filter(m => !m.deleted),
             })
-        }else {
+        } else {
             Q.reject({
                 status: 'failed',
                 message: 'Not logged in. ',
             })
         }
+        
         return Q.promise;
     };
     this.getMessageDetail = function (obj) {
         var Q = $q.defer();
+
         var index = obj.index;
-        if(this.user && this.user.isValid()) {
+        if (this.user && this.user.isValid()) {
             var user = this.user.data.user;
-            Q.resolve({
-                status: 'success',
-                data: this.messages.filter(m => m.sender === user || m.recipient === user)[index],
-            })
-        }else {
-            Q.reject({
-                status: 'failed',
-                message: 'Not logged in. ',
-            })
+            var message = this.messages
+                .filter(m => m.sender === user || m.recipient === user)
+                .filter(m => !m.deleted)
+                .find(m => m.index == index);
         }
-        return Q.promise;
-    };
-    this.messageImportant = function (obj) {
-        var Q = $q.defer();
-        var index = obj.index;
-        if(this.user && this.user.isValid()) {
-            var user = this.user.data.user;
-            var message = this.messages.filter(m => m.sender === user || m.recipient === user)[index];
-            message.important = "1";
-            localStorage.setItem("messages", JSON.stringify(this.messages));
+
+        if(message) {
             Q.resolve({
                 status: 'success',
                 data: message,
             })
-        }else {
+        } else {
             Q.reject({
                 status: 'failed',
-                message: 'Not logged in. ',
+                message: 'Cannot find request message. Try login again. ',
             })
         }
+
+        return Q.promise;
+    };
+    this.messageImportant = function (obj) {
+        var Q = $q.defer();
+
+        var index = obj.index;
+        if (this.user && this.user.isValid()) {
+            var user = this.user.data.user;
+            var message = this.messages
+                .filter(m => m.sender === user || m.recipient === user)
+                .find(m => m.index == index);
+            message.important = "1";
+            localStorage.setItem("messages", JSON.stringify(this.messages));
+        }
+
+        if(message) {
+            Q.resolve({
+                status: 'success',
+                data: message,
+            })
+        } else {
+            Q.reject({
+                status: 'failed',
+                message: 'Cannot find request message. Try login again. ',
+            })
+        }
+
         return Q.promise;
     };
     this.messageReply = function (obj) {
         var Q = $q.defer();
-        if(this.user && this.user.isValid()) {
+
+        if (this.user && this.user.isValid()) {
             var user = this.user.data.user;
             var message = {
+                "index": this.messages.length,
                 "recipient": obj.recipient,
                 "recipient_img": "http://simpleicon.com/wp-content/uploads/user1.png",
                 "sender": user,
@@ -213,11 +203,14 @@ app.service("dataService", function ($timeout, $http, $q) {
             };
             this.messages.push(message);
             localStorage.setItem("messages", JSON.stringify(this.messages));
+        }
+        
+        if(message) {
             Q.resolve({
                 status: 'success',
                 data: message,
             })
-        }else {
+        } else {
             Q.reject({
                 status: 'failed',
                 message: 'Not logged in. ',
@@ -227,20 +220,28 @@ app.service("dataService", function ($timeout, $http, $q) {
     };
     this.messageDeleted = function (obj) {
         var Q = $q.defer();
+
         var index = obj.index;
-        if(this.user && this.user.isValid()) {
+        if (this.user && this.user.isValid()) {
             var user = this.user.data.user;
-            this.messages.filter(m => m.sender === user || m.recipient === user).splice(index, 1);
+            var message = this.messages
+                .filter(m => m.sender === user || m.recipient === user)
+                .find(m => m.index == index);
+            message.deleted = true;
             localStorage.setItem("messages", JSON.stringify(this.messages));
+        }
+
+        if(message) {
             Q.resolve({
                 status: 'success',
             })
-        }else {
+        } else {
             Q.reject({
                 status: 'failed',
-                message: 'Not logged in. ',
+                message: 'Cannot find request message. Try login again. ',
             })
         }
+
         return Q.promise;
     };
 });
