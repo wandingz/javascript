@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    <title>Angular JS w/ NodeJS</title>
+    <script src="libs/angular.1.5.5.js"></script>
+    <!-- <script src="libs/angular-route.js"></script> -->
+    <script src="index.js"></script>
+</head>
+
+<body>
+    <div ng-app="myapp">
+        <div ng-controller="myctrl">
+            <div class="form">
+                <input type="text" ng-model="form.username" placeholder="Username" />
+                <input type="button" value="Submit" ng-click="submit()"/>
+            </div>
+            <div class='user' ng-if="user">
+                <p>Username: {{user.username}}</p>
+                <p>First Name: {{user.first_name}}</p>
+                <p>Last Name: {{user.last_name}}</p>
+                <p>Pasword: {{user.password}}</p>
+                <p>Credit: {{user.credit}}</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

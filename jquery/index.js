@@ -132,10 +132,11 @@ function edit_post_cancel() {
 
 function editPost(postid) {
     for (var post of data.posts) if (post.id === postid) {
-        jQuery('#edit_post_userId').attr("value", post.userId);
-        jQuery('#edit_post_id').attr("value", post.id);
-        jQuery('#edit_post_title').attr("value", post.title);
-        jQuery('#edit_post_body').attr("value", post.body);
+        console.log(post);
+        jQuery('#edit_post_userId').val(post.userId);
+        jQuery('#edit_post_id').val(post.id);
+        jQuery('#edit_post_title').val(post.title);
+        jQuery('#edit_post_body').val(post.body);
     }
     jQuery("#edit_post").show();
     jQuery("#edit_post_id").attr('value', postid);

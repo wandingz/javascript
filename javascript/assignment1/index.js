@@ -21,10 +21,11 @@ function timer() {
         }
     }
 
-    setTimeout(timer, timeMs);
+    // setTimeout(timer, timeMs);
 }
 
-timer();
+setInterval(timer, timeMs)
+// timer();
 
 function shift(s) {
     status = s;

@@ -11,6 +11,15 @@ app.service("dataService", function ($timeout, $http, $q) {
     } else {
         this.user = undefined;
     }
+    this.auth = function () {
+        var Q = $q.defer();
+        if (this.user) {
+            Q.resolve();
+        } else {
+            Q.reject('Not Authenticated');
+        }
+        return Q.promise;
+    }
 
     this.registeredUsers = [];
     try {
@@ -41,14 +50,21 @@ app.service("dataService", function ($timeout, $http, $q) {
         var Q = $q.defer();
         var user = new User(obj);
         if (user.isValid()) {
-            this.registeredUsers.push(user.data);
-            localStorage.setItem("registeredUsers", JSON.stringify(this.registeredUsers));
-            this.user = user;
-            localStorage.setItem("currentUser", JSON.stringify(this.user.data));
-            Q.resolve({
-                status: 'success',
-                data: user.data,
-            });
+            if (!this.registeredUsers.find(u => u.user === obj.user)) {
+                this.registeredUsers.push(user.data);
+                localStorage.setItem("registeredUsers", JSON.stringify(this.registeredUsers));
+                this.user = user;
+                localStorage.setItem("currentUser", JSON.stringify(this.user.data));
+                Q.resolve({
+                    status: 'success',
+                    data: user.data,
+                });
+            } else {
+                Q.reject({
+                    status: 'falied',
+                    message: 'Username already taken. Please choose another one',
+                })
+            }
         } else {
             Q.reject({
                 status: 'falied',
@@ -129,7 +145,7 @@ app.service("dataService", function ($timeout, $http, $q) {
                 message: 'Not logged in. ',
             })
         }
-        
+
         return Q.promise;
     };
     this.getMessageDetail = function (obj) {
@@ -144,7 +160,7 @@ app.service("dataService", function ($timeout, $http, $q) {
                 .find(m => m.index == index);
         }
 
-        if(message) {
+        if (message) {
             Q.resolve({
                 status: 'success',
                 data: message,
@@ -165,13 +181,13 @@ app.service("dataService", function ($timeout, $http, $q) {
         if (this.user && this.user.isValid()) {
             var user = this.user.data.user;
             var message = this.messages
-                .filter(m => m.sender === user || m.recipient === user)
+                .filter(m => m.recipient === user)
                 .find(m => m.index == index);
             message.important = "1";
             localStorage.setItem("messages", JSON.stringify(this.messages));
         }
 
-        if(message) {
+        if (message) {
             Q.resolve({
                 status: 'success',
                 data: message,
@@ -204,8 +220,8 @@ app.service("dataService", function ($timeout, $http, $q) {
             this.messages.push(message);
             localStorage.setItem("messages", JSON.stringify(this.messages));
         }
-        
-        if(message) {
+
+        if (message) {
             Q.resolve({
                 status: 'success',
                 data: message,
@@ -225,13 +241,13 @@ app.service("dataService", function ($timeout, $http, $q) {
         if (this.user && this.user.isValid()) {
             var user = this.user.data.user;
             var message = this.messages
-                .filter(m => m.sender === user || m.recipient === user)
+                .filter(m => m.recipient === user)
                 .find(m => m.index == index);
             message.deleted = true;
             localStorage.setItem("messages", JSON.stringify(this.messages));
         }
 
-        if(message) {
+        if (message) {
             Q.resolve({
                 status: 'success',
             })

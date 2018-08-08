@@ -1,6 +1,6 @@
 <div class='messageDetail'>
     <a ng-href="#/messageList">Back to Message List</a>
-    <div ng-repeat="message in messageList">
+    <div ng-repeat="message in messageList track by $index">
         <div>{{message.sender}}</div>
         <div><img ng-src="{{message.sender_img}}" /></div>
         <div>{{message.recipient}}</div>
@@ -9,8 +9,8 @@
         <div>{{message.description}}</div>
         <div>{{message.created_at}}</div>
         <div>{{message.important}}</div>
-        <div><input type="button" ng-if="$index==0" value="Important" ng-click="messageImportant()" /></div>
-        <div><input type="button" ng-if="$index==0" value="Delete" ng-click="messageDeleted()" /></div>
+        <div><input type="button" ng-if="$index==0 && selfMessage" value="Important" ng-click="messageImportant()" /></div>
+        <div><input type="button" ng-if="$index==0 && selfMessage" value="Delete" ng-click="messageDeleted()" /></div>
     </div>
     <div>
         <p>Reply</p>

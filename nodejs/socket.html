@@ -1,0 +1,23 @@
+<html>
+
+<head>
+    <title>Hello nodejs</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <p id='from'></p>
+    <p><input type='text' id='txt'/></p>
+    <input type="button" value='Send!' id='btn'/>
+    <script>
+        var socket = io.connect();
+        socket.on('data_to_client', function(data) {
+            document.getElementById('from').innerHTML += '<br />' +  data
+        });
+        document.getElementById('btn').addEventListener('click', function() {
+            socket.emit('data_to_server', document.getElementById('txt').value)
+        });
+    </script>
+</body>
+
+</html>

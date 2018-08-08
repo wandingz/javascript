@@ -1,0 +1,13 @@
+<h1>{{title}}</h1>
+<div>
+    <input type="text" [(ngModel)]="user.username" placeholder="Username" /><br />
+    <input type="password" [(ngModel)]="user.password" placeholder="Password" /><br />
+    <input type="text" [(ngModel)]="user.first_name" placeholder="First Name" /><br />
+    <input type="text" [(ngModel)]="user.last_name" placeholder="Last Name" /><br />
+    <input type="number" [(ngModel)]="user.credit" placeholder="Credit" /><br />
+    <input type="button" (click)="submit()" value="Save" /><br />
+    <div>{{user | json}}</div>
+    <div>{{loading}}</div>
+    <div>{{data | json}}</div>
+    <div>{{error | json}}</div>
+</div>

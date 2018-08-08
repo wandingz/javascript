@@ -1,5 +1,5 @@
 <div class='messageList'>
-    <div ng-repeat="message in messageList">
+    <div ng-repeat="message in messageList track by $index">
         <a ng-href="#messageDetail/{{message.index}}">
             <div>{{message.sender}} -> {{message.recipient}}</div>
             <div>{{message.title}}</div>
