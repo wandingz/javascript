@@ -94,6 +94,7 @@ var user_schema = mongoose.Schema({
     password: {
         type: String,
         required: function () {
+            console.log(this.password, this.password.length);
             return this.password && this.password.length >= 3;
         },
     },
@@ -114,10 +115,23 @@ app.post('/users', function (req, res) {
             return doc.save();
         })
         .then(d => {
+            console.log(d)
+            res.set('Location', '/users/' + d._id);
             res.sendStatus(201);
         })
         .catch(err => {
             console.log(err);
+            res.status(400).send(err);
+        });
+});
+
+app.get('/users/:ID', function (req, res) {
+    var id = req.params.ID;
+    user_model.findOne({'_id': id})
+        .then(d => {
+            res.send(d);
+        })
+        .catch(err => {
             res.status(400).send(err);
         });
 });
