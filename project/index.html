@@ -1,0 +1,41 @@
+<html>
+
+<head>
+    <title>Angular JS Assignment</title>
+    <script src="libs/angular.1.5.5.js"></script>
+    <script src="libs/angular-route.js"></script>
+    <script src="index.js"></script>
+    <script src="dataService.js"></script>
+    <script src="templates/home.js"></script>
+    <script src="templates/login.js"></script>
+    <script src="templates/users.js"></script>
+    <script src="templates/userList.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div ng-app="myapp">
+
+        <div ng-controller="navBar" class="navBar">
+            <div ng-if="data.auth">
+                <div>
+                    <a href="#/">Home</a>
+                    <a href="#/users">Users</a>
+                    <a href="#/userList">User List</a>
+                    <a ng-href="#/login" ng-click="logout()">Logout</a>
+                </div>
+            </div>
+            <div ng-if="!data.auth">
+                <div>
+                    <a href="#/login">Login</a>
+                </div>
+            </div>
+            <!-- <button ng-click="consolelog()" >log</button> -->
+        </div>
+
+        <div ng-view></div>
+    </div>
+    <!-- <script data-main="config" src="libs/require.js"></script> -->
+</body>
+
+</html>

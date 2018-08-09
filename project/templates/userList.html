@@ -1,0 +1,41 @@
+<div class='userList'>
+    <div class='filter'>
+        <h3>Filter</h3>
+        <div id='user'>
+            <input type="text" ng-model="form.username" placeholder="Username" />
+        </div>
+        <div id='pswd'>
+            <input type="password" ng-model="form.password" placeholder="Password" />
+        </div>
+        <div id='email'>
+            <input type="text" ng-model="form.email" placeholder="Email" />
+        </div>
+
+        <div id='type'>
+            <select ng-model="form.type">
+                <option ng-repeat="x in allTypes" value="{{x.value}}">{{x.name}}</option>
+            </select>
+        </div>
+
+        <div id='gender'>
+            <input type="radio" ng-model="form.gender" value=""> All
+            <input type="radio" ng-model="form.gender" value="Male"> Male
+            <input type="radio" ng-model="form.gender" value="Female"> Female
+            <input type="radio" ng-model="form.gender" value="Other"> Other
+        </div>
+
+        <div id='location'>
+            <input type="text" ng-model="form.location" placeholder="Location" />
+        </div>
+        <input type="button" value="Apply" ng-click="addUser()" />
+    </div>
+    <div class='user' ng-repeat="user in userList.filter(filter) track by $index">
+        <div>Username: {{user.username}}</div>
+        <div>Password: {{user.password}}</div>
+        <div>Email: {{user.email}}</div>
+        <div>Type: {{user.type}}</div>
+        <div>Gender: {{user.gender}}</div>
+        <div>Location: {{user.location}}</div>
+        <input type="button" value="Delete" ng-click="delete($index)" />
+    </div>
+</div>
