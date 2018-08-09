@@ -1,0 +1,6 @@
+<div>
+    <div ng-if="data.isAuth">Authorized</div>
+    <div ng-if="!data.isAuth">Unauthorized</div>
+    <div><input type="button" value="authorize" ng-click="data.auth()"/></div>
+    <div><input type="button" value="unauthorize"  ng-click="data.unauth()"/></div>
+</div>

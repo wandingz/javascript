@@ -10,3 +10,9 @@
 - jQuery at `./jquery`. Please ignore folder `./jQuery/angularjs`
 - Angular Js at `./angularjs`
 
+## Project starter
+
+An example nodejs & angularJS project using require.js for lazy loading, mongoDB and mongoose for object data modeling. Follows restful style. 
+
+- At `./starter`
+
