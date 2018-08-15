@@ -1,0 +1,7 @@
+<div>
+  <span>
+    <!-- {{rating}} -->
+    <span *ngFor="let n of rating | float2Array" class="glyphicon glyphicon-star"></span>
+    <button (click)="add()">+1</button>
+  </span>
+</div>

@@ -1,0 +1,37 @@
+<div class='container' style="width: 600px;">
+  Hello world!
+  <div class='panel panel-primary'>
+    <div class='panel-heading'>
+      heading
+    </div>
+    <div class='panel-body'>
+      <input type='text' class="form-control" [(ngModel)]="keyword" placeholder="Keyword"/>
+      <div class="alert alert-success" *ngIf='keyword'>
+        {{keyword}}
+      </div>
+      <table class='table table-bordered' *ngIf='products && products.length'>
+        <tr>
+          <th>
+            <button class='btn btn-success' (click)='showImage=!showImage;'>{{showImage ? "Hide" : "Show"}} Image</button>
+          </th>
+          <th>Product Name</th>
+          <th>Product Code</th>
+          <th>Price</th>
+          <th>Rating</th>
+        </tr>
+        <tr *ngFor="let p of products | products:keyword">
+          <td>
+            <img [src]="p.imageUrl" style="height: 1.2em;" *ngIf='showImage'/>
+          </td>
+          <td>{{p.productName}}</td>
+          <td>{{p.productCode}}</td>
+          <td>{{p.price}}</td>
+          <td>
+            {{p.starRating}}
+            <app-rating [(rating)]="p.starRating"></app-rating>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
