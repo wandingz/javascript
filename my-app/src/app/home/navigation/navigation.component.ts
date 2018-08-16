@@ -15,7 +15,6 @@ export class NavigationComponent implements OnInit {
   ngOnInit() {
     this._authService.$authStatus
       .subscribe(d => {
-        console.log('[NavigationComponent] authStatus Changed to ', d);
         this.isLoggedIn = d.isLoggedIn;
       });
   }
