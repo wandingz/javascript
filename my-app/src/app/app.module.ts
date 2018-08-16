@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
+
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppComponent } from './app.component';
 import { ProductsComponent } from './products/products/products.component';
@@ -15,6 +17,7 @@ import { LoginComponent } from './home/login/login.component';
 import { NavigationComponent } from './home/navigation/navigation.component';
 
 import { AuthService } from './auth/auth.service';
+import { LoginRouteGuard } from './login-route.guard';
 
 @NgModule({
   declarations: [
@@ -33,14 +36,15 @@ import { AuthService } from './auth/auth.service';
     FormsModule,
     RouterModule.forRoot([
       { path: "home", component: WelcomeComponent },
-      { path: "products", component: ProductsComponent },
+      { path: "products", component: ProductsComponent, canActivate: [LoginRouteGuard], },
+      { path: "details/:pid", component: DetailComponent },
       { path: "login", component: LoginComponent },
       { path: "", redirectTo: "home", pathMatch: "full" },
       { path: "**", redirectTo: 'home' },
     ]),
     HttpModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, LoginRouteGuard, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

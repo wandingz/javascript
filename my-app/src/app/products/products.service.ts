@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 
-class Product {
+import { Observable } from 'rxjs';
+
+export class Product {
   productName: string;
   productCode: string;
+  releaseDate: string;
+  description: string;
   price: number;
   starRating: number;
   imageUrl: string;
@@ -16,6 +20,17 @@ class Product {
 export class ProductsService {
 
   constructor() { }
+
+  getProductsByCode(productCode: string): Observable<Product> {
+    return Observable.create((observer) => {
+      setTimeout(() => {
+        this.getProducts()
+          .filter(p => p.productCode === productCode)
+          .forEach(p => observer.next(p));
+        observer.complete()
+      }, 200);
+    });
+  }
 
   getProducts(): Array<Product> {
     return [{

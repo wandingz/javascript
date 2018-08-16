@@ -14,10 +14,12 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this._authService.login(this.authForm)
-      .subscribe(d => {
-        this._router.navigate(["/home"]);
-      }, err => {
-        alert('Invalid Username');
+      .then(d => {
+        if (d.isLoggedIn) {
+          this._router.navigate(["/home"]);
+        } else {
+          alert('Invalid Username');
+        }
       });
   }
   constructor(private _authService: AuthService, private _router: Router) { }

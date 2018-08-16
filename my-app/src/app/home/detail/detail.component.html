@@ -1,3 +1,37 @@
-<p>
-  detail works!
-</p>
+<div style="text-align: center; ">
+  <div *ngIf='product' class='panel panel-primary' style="width: 600px; display: inline-block;">
+
+    <div class='panel-heading'>
+      {{product.productName}}
+    </div>
+
+    <div class="panel-body">
+
+      <table class='table table-bordered'>
+        <tr>
+          <td>Product Code: </td>
+          <td>{{product.productCode}}</td>
+        </tr>
+        <tr>
+          <td>Price: </td>
+          <td>{{product.price}}</td>
+        </tr>
+        <tr>
+          <td>Star Rating: </td>
+          <td>{{product.starRating}}</td>
+        </tr>
+        <tr>
+          <td>Release Date: </td>
+          <td>{{product.releaseDate}}</td>
+        </tr>
+        <tr>
+          <td>Description: </td>
+          <td>{{product.description}}</td>
+        </tr>
+      </table>
+      <img [src]='product.imageUrl' />
+
+    </div>
+
+  </div>
+</div>

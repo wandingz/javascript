@@ -9,7 +9,7 @@ import { ProductsService } from '../products.service'
   providers: [ProductsService],
 })
 export class ProductsComponent implements OnInit {
-  showImage: boolean = false;
+  showImage: boolean = true;
 
   constructor(private _productsService: ProductsService) { }
 

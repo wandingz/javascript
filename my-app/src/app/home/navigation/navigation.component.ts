@@ -13,10 +13,10 @@ export class NavigationComponent implements OnInit {
   constructor(private _authService: AuthService) { }
 
   ngOnInit() {
-    this.isLoggedIn = !!this._authService.authForm;
-    this._authService.$authChange
+    this._authService.$authStatus
       .subscribe(d => {
-        this.isLoggedIn = d;
+        console.log('[NavigationComponent] authStatus Changed to ', d);
+        this.isLoggedIn = d.isLoggedIn;
       });
   }
 

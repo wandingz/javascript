@@ -1,5 +1,4 @@
 <div class='container' style="width: 600px;">
-  Hello world!
   <div class='panel panel-primary'>
     <div class='panel-heading'>
       heading
@@ -23,7 +22,7 @@
           <td>
             <img [src]="p.imageUrl" style="height: 1.2em;" *ngIf='showImage'/>
           </td>
-          <td>{{p.productName}}</td>
+          <td><a href="#" [routerLink]="['/details', p.productCode]">{{p.productName}}</a></td>
           <td>{{p.productCode}}</td>
           <td>{{p.price}}</td>
           <td>
