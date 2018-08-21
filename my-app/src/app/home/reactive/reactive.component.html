@@ -1,0 +1,51 @@
+<div class='container' style="width: 600px;">
+  <div class='panel panel-primary'>
+    <div class='panel-heading'>
+      heading
+    </div>
+    <div class='panel-body'>
+      <form [formGroup]='form' (ngSubmit)='submit'>
+        <div>
+          <label class='control-label'>First Name</label>
+          <input type="text" placeholder="First name" class="form-control" formControlName='firstname' />
+          <div class='alert alert-danger' *ngIf='!form.get("firstname").valid && form.get("firstname").touched'>
+            First Name is not valid.
+          </div>
+        </div>
+        <div>
+          <label class='control-label'>Last Name</label>
+          <input type="text" placeholder="Last name" class="form-control" formControlName='lastname' />
+          <!-- <div class='alert alert-danger' *ngIf='!firstnameVar.valid && (firstnameVar.touched || firstnameVar.submitted)'>
+          First Name is not valid.
+        </div> -->
+        </div>
+        <div>
+          <label class='control-label'>Email</label>
+          <input type="text" placeholder="Email" class="form-control" formControlName='email' />
+          <!-- <div class='alert alert-danger' *ngIf='!firstnameVar.valid && (firstnameVar.touched || firstnameVar.submitted)'>
+          First Name is not valid.
+        </div> -->
+        </div>
+        <div>
+          <label class='control-label'>Gender</label>
+          <div>
+            <input type="radio" name="gender" value="male" formControlName="gender" (click)='updateValidation("male")' />Male
+            <input type="radio" name="gender" value="female" formControlName="gender" (click)='updateValidation("female")' />Female
+            <input type="radio" name="gender" value="other" formControlName="gender" (click)='updateValidation("other")' />Other
+          </div>
+        </div>
+        <div>
+          <label class='control-label'>Details</label>
+          <input type="text" placeholder="Details" class="form-control" formControlName='details' />
+          <div class='alert alert-danger' *ngIf='!form.get("details").valid'>
+            Details are not valid.
+          </div>
+        </div>
+        <div>
+          <button type="button" (click)='applyDefault()' class='btn btn-secondary'>Apply Default</button>
+          <button type="submit" class='btn btn-primary'>Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

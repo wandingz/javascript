@@ -22,7 +22,7 @@
           <td>
             <img [src]="p.imageUrl" style="height: 1.2em;" *ngIf='showImage'/>
           </td>
-          <td><a href="#" [routerLink]="['/details', p.productCode]">{{p.productName}}</a></td>
+          <td><a href="#" [routerLink]="['details', p.productCode]">{{p.productName}}</a></td>
           <td>{{p.productCode}}</td>
           <td>{{p.price}}</td>
           <td>
