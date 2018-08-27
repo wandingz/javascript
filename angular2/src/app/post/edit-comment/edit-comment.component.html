@@ -1,0 +1,23 @@
+<div *ngIf="show" class="back-gray">
+  <div class='container form-back-gray'>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Add Comment
+      </div>
+      <div class='panel-body'>
+        <form class="navbar-form navbar-left">
+          <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="comment.description" name="description" placeholder="Description">
+          </div><br />
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" (click)="submit()">Submit</button>
+            <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="display: inline-block">
+  <button class="btn btn-secondary" (click)="addComment(post._id)">Add Comment</button>
+</div>

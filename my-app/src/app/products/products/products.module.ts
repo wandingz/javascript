@@ -26,8 +26,8 @@ import { AuthInterceptorService } from '../../auth/auth-interceptor.service';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      { path: "", component: ProductsComponent, canActivate: [LoginRouteGuard], },
-      { path: "details/:pid", component: DetailComponent },
+      { path: "", component: ProductsComponent, canActivate: [LoginRouteGuard] },
+      { path: "details/:pid", component: DetailComponent, canActivate: [LoginRouteGuard] },
     ]),
     HttpClientModule,
   ],

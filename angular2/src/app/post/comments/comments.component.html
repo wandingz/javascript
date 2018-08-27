@@ -1,0 +1,18 @@
+<div *ngIf='!show'>
+  <button (click)="showComment()" class='btn'>Show Comment</button>
+</div>
+<div *ngIf="show">
+  <h3>
+    Comments
+  </h3>
+  <table class='table table-bordered'>
+    <tr>
+      <th width="30%">Author</th>
+      <th>Description</th>
+    </tr>
+    <tr *ngFor="let c of comments">
+      <td>{{c.author}}</td>
+      <td>{{c.description}}</td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,9 @@
+<form class="navbar-form navbar-left" role="search">
+  <div class="form-group">
+    <input type="text" class="form-control" [(ngModel)]="authForm.username" name="username" placeholder="Username">
+  </div>
+  <div class="form-group">
+    <input type="password" class="form-control" [(ngModel)]="authForm.password" name="password" placeholder="Password">
+  </div>
+  <button type="submit" class="btn btn-default" (click)="submit()">Submit</button>
+</form>

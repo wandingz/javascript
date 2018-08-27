@@ -1,0 +1,26 @@
+<div class='panel panel-primary'>
+  <div class='panel-heading'>
+    {{post.title}}
+  </div>
+  <div class='panel-body'>
+    <table class='table table-bordered'>
+      <tr>
+        <th width="30%">Author</th>
+        <td>{{post.author}}</td>
+      </tr>
+      <tr>
+        <th width="30%">Description</th>
+        <td>{{post.description}}</td>
+      </tr>
+    </table>
+    <app-comments [comments]="post.comments"></app-comments>
+
+  </div>
+  <div class='panel-footer'>
+    <a href="#" *ngIf='detailRouterLink' [routerLink]='detailRouterLink'>Detail</a>
+    <app-edit-post [post]="post"></app-edit-post>
+    <button class="btn btn-secondary" (click)="deletePost(post._id)">Delete Post</button>
+    <app-edit-comment [post]="post"></app-edit-comment>
+    <app-like [post]="post"></app-like>
+  </div>
+</div>

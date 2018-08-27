@@ -1,0 +1,19 @@
+<div style="display: inline-block">
+  <button class='btn' (click)="like()">Like! </button>
+  <button class='btn' (click)='showLikes()'>{{post.likes.length}}</button>
+  <div *ngIf="show" class="back-gray">
+    <div class='container form-back-gray'>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          This post receives {{post.likes.length}} likes
+        </div>
+        <div class='panel-body'>
+          <div *ngFor="let l of post.likes">{{l.username}}</div>
+        </div>
+        <div class='panel-footer'>
+          <button class='btn btn-primary' (click)="show=false">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div *ngIf="show" class="back-gray">
+  <div class='container form-back-gray'>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Edit Post
+      </div>
+      <div class='panel-body'>
+        <form class="navbar-form navbar-left form">
+          <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="postForm.title" name="title" placeholder="Title">
+          </div><br />
+          <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="postForm.description" name="description" placeholder="Description">
+          </div><br />
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" (click)="submit()">Submit</button>
+            <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="display: inline-block">
+  <button class="btn btn-secondary" (click)="editPost(post._id)">Edit Post</button>
+</div>
