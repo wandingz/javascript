@@ -50,7 +50,8 @@ export class PostService {
     $o.subscribe(d => {
       var posts = this.$posts.value;
       var pid = posts.findIndex(p => p._id === post._id);
-      posts[pid] = post;
+      posts[pid].title = post.title;
+      posts[pid].description = post.description;
       this.$posts.next(posts);
     });
     return $o;

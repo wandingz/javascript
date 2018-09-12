@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 
-app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -171,27 +171,28 @@ app.post('/authenticate', function (req, res) {
 });
 
 app.post('/register', function (req, res) {
-    User(req.body).save()
-        .then(() => {
-            var token = jwt.sign({
-                username: req.body.username,
-            }, secretKey, {
-                    expiresIn: '1h',
+    setTimeout(() => {
+        User(req.body).save()
+            .then(() => {
+                var token = jwt.sign({
+                    username: req.body.username,
+                }, secretKey, {
+                        expiresIn: '1h',
+                    });
+                res.send({
+                    isLoggedIn: true,
+                    username: req.body.username,
+                    token: token,
                 });
-            res.send({
-                isLoggedIn: true,
-                username: req.body.username,
-                token: token,
+            })
+            .catch(err => {
+                res.status(400).send({
+                    isLoggedIn: false,
+                    message: "Invalid user information. ",
+                    err: err
+                });
             });
-        })
-        .catch(err => {
-            res.status(400).send({
-                isLoggedIn: false,
-                message: "Invalid user information. ",
-                err: err
-            });
-        });
-
+    }, 2000);
 });
 
 const secretKey = 'zhaoyi12345';
@@ -380,7 +381,7 @@ app.post('/post/like', function (req, res) {
         })
 })
 
-app.listen(3000, function () {
-    console.log('Server is running @ localhost:3000');
+app.listen(4000, function () {
+    console.log('Server is running @ localhost:4000');
 });
 

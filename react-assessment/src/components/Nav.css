@@ -1,0 +1,14 @@
+.link {
+    color: white;
+    text-decoration: none;
+}
+
+.link-active {
+    color: #00a2e8;
+}
+
+.nav {
+    color: white;
+    background: black;
+    padding: 0.5em 2em;
+}
