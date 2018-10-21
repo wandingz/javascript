@@ -77,14 +77,13 @@ class ListRequest extends Component {
                 </div>
                 <table>
                     <tbody>
-                        <tr style={{ "border-bottom": "2px solid black;" }}>
+                        <tr style={{ borderBottom: "2px solid black" }}>
                             <th style={{ width: '260px' }}>Title</th>
                             <th style={{ width: '100px' }}>Status</th>
                             <th style={{ width: '100px' }}>Created</th>
                             <th style={{ width: '100px' }}>updated</th>
                             <th style={{ width: '60px' }}>Delete</th>
                         </tr>
-                        <hline />
                         {
                             this.props.requests.filter(this.filter).map(r => (
                                 <tr key={r.id} style={{ background: this.status2Color(r.status) }}>

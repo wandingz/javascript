@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <title>Hello Testing</title>
+</head>
+
+<body style="height: 100%; overflow: hidden;">
+    <div id='myDiv'>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+        <p>1</p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script>
+        var MOUSE_OVER = false;
+        $('body').bind('mousewheel', function (e) {
+            if (MOUSE_OVER) {
+                if (e.preventDefault) { e.preventDefault(); }
+                e.returnValue = false;
+                return false;
+            }
+        });
+
+        $('#myDiv').mouseenter(function () { MOUSE_OVER = true; });
+        $('#myDiv').mouseleave(function () { MOUSE_OVER = false; });
+
+        $('#myDiv').bind('mousewheel', function (e) {
+            // console.log(e)
+            var delta = e.originalEvent.wheelDeltaY;
+            if (delta > 0) {
+                console.log('go up');
+            }
+            else {
+                console.log('go down');
+            }
+        });
+    </script>
+</body>
+
+</html>

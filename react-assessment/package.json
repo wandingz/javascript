@@ -9,6 +9,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "form-serialize": "^0.7.2",
+    "highcharts": "^6.1.4",
     "jsonwebtoken": "^8.3.0",
     "mongodb": "^3.1.4",
     "mongoose": "^5.2.13",
@@ -25,12 +26,18 @@
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
     "rxjs": "^6.3.2",
+    "shortid": "^2.2.13",
     "universal-cookie": "^3.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "test-server": "jasmine",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "jasmine": "^3.2.0",
+    "supertest": "^3.3.0"
   }
 }

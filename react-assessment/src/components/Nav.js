@@ -18,16 +18,17 @@ class Nav extends Component {
         if (this.props.user.isLoggedIn) {
             return (
                 <div className="nav">
-                    <ActivableNavLink to='/' exact >Home</ActivableNavLink>{' | '}
-                    <ActivableNavLink to='/createRequest' >Create request</ActivableNavLink>{' | '}
-                    <ActivableNavLink to='/listRequest' >List request</ActivableNavLink>{' | '}
+                    <ActivableNavLink to='/' exact >Home</ActivableNavLink>&nbsp;|&nbsp;
+                    <ActivableNavLink to='/createRequest' >Create request</ActivableNavLink>&nbsp;|&nbsp;
+                    <ActivableNavLink to='/listRequest' >List request</ActivableNavLink>&nbsp;|&nbsp;
+                    <ActivableNavLink to='/highcharts' >Highcharts</ActivableNavLink>&nbsp;|&nbsp;
                     <Button className="link asLink" onClick={this.handleLogout}>Logout</Button>
                 </div>
             );
         } else {
             return (
                 <div className="nav">
-                    <ActivableNavLink to='/login' >Login</ActivableNavLink>{' | '}
+                    <ActivableNavLink to='/login' >Login</ActivableNavLink>&nbsp;|&nbsp;
                     <ActivableNavLink to='/register' >Register</ActivableNavLink>
                 </div>
             );

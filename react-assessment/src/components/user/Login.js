@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import serializeForm from 'form-serialize';
 import { InputGroup, Input } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 
 import { login } from '../../redux/actions/user';
 import LoadingButton from '../util/LoadingButton';
@@ -11,7 +12,9 @@ class Login extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         var user = serializeForm(e.target, { hash: true });
-        this.props.dispatch(login(user));
+        this.props.dispatch(login(user)).then(d => {
+            this.props.history.push('/');
+        });
     }
 
     render() {
@@ -37,4 +40,4 @@ class Login extends Component {
     }
 }
 
-export default connect()(Login);
+export default withRouter(connect()(Login));

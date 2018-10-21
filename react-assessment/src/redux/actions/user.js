@@ -7,10 +7,21 @@ const cookies = new Cookies();
 export const ERROR = "ERROR";
 export const USER_LOGIN = "USER_LOGIN";
 
+// export function updateState(form) {
+//     return function (dispatch) {
+//         dispatch({
+//             type: 'UPDATE_STATE',
+//             form
+//         })
+//         return Promise.resolve()
+//     }
+// }
+
 export function login(form) {
     return (dispatch) => {
-        dispatch(loading('Login', LOADING_PENDING));
-        fetch('http://localhost:4000/authenticate', {
+        // var promise = Promise();
+        // dispatch(loading('Login', LOADING_PENDING));
+        var promise = fetch('http://localhost:4000/authenticate', {
             method: 'POST',
             body: JSON.stringify(form),
             headers: { "Content-Type": "application/json" }
@@ -22,15 +33,16 @@ export function login(form) {
                     type: USER_LOGIN,
                     data: data,
                 });
-                dispatch(loading('Login', LOADING_FINISHED));
-                dispatch(loading('Login', undefined));
+                // dispatch(loading('Login', LOADING_FINISHED));
+                // dispatch(loading('Login', undefined));
             } else {
                 throw (data);
             }
         }).catch(err => {
             console.log(err);
-            dispatch(loading('Login', LOADING_ERROR));
-        })
+            // dispatch(loading('Login', LOADING_ERROR));
+        });
+        return promise;
     };
 }
 

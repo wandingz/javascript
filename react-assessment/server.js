@@ -23,6 +23,17 @@ db.on('open', () => console.log('mongoose connect open'));
 
 // app.use(express.static("dist"));
 
+app.get('/test', function (req, res) {
+    setTimeout(() => {
+        res.status(204);
+        res.header({
+            'Set-Cookie': 'sessionid=38afes7a8; HttpOnly; Path=/',
+            'Set-Cookie': 'qwerty=219ffwef9w0f; Path=/',
+        });
+        res.send();
+    }, 3000);
+});
+
 var User = mongoose.model('user', mongoose.Schema({
     username: {
         type: String,
@@ -199,7 +210,7 @@ app.get('/requests', function (req, res) {
 });
 
 
-app.listen(4000, function () {
+module.exports = app.listen(4000, function () {
     console.log('Server is running @ localhost:4000');
 });
 

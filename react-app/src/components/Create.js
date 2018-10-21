@@ -15,7 +15,7 @@ class Create extends Component {
         this.setState({ valid: true }, () => {
             this.props.store.dispatch(addUser(user));
             this.props.history.push('/user');
-        })
+        });
     }
     // componentDidMount() {
     //     this.setState({ users: this.props.store.getState() });
