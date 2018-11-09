@@ -1,17 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-class Title extends Component {
-  render(){
-    if(this.props.publisher){
-       return (
-         <h3>{this.props.name}<span className="connector">by </span><span className="publisher">{this.props.publisher}</span> </h3>
-       );
-    } else{
-      return (
-        <h3>{this.props.name}</h3>
-      );
-    }
+class About extends Component {
+  render() {
+    return (<div>
+      <div>Yi Zhao</div>
+      <div>Server Side Rendering Test</div>
+      <div>v 0.1</div>
+    </div>)
   }
 }
 
-export default Title;
+export default About;

@@ -16,6 +16,7 @@ import HighchartsComponent from './Highcharts';
 import CreateRequest from './request/Create';
 import ListRequest from './request/List';
 import UploadFile from './upload/Upload';
+import Test from './Test';
 
 class App extends Component {
 
@@ -32,6 +33,7 @@ class App extends Component {
                     <Route path='/uploadFile' component={UploadFile} />
                     <Route path='/login' component={Login} />
                     <Route path='/register' component={Register} />
+                    <Route path='/test/' component={Test} />
                     <Route component={PageNotFound} />
                 </Switch>
             </div>

@@ -24,29 +24,50 @@ const template = require('./src/template');
 //SSR function import
 const ssr = require('./src/server');
 
-// server rendered home page
-app.get('/', (req, res) => {
-  const { preloadedState, content } = ssr(req, initialState)
-  const response = template("Server Rendered Page", preloadedState, content)
-  res.setHeader('Cache-Control', 'assets, max-age=604800')
-  res.send(response);
-});
+import { matchPath } from "react-router-dom";
+import routes from './src/routes';
 
-// Pure client side rendered page
-app.get('/client', (req, res) => {
-  let response = template('Client Side Rendered page')
-  res.setHeader('Cache-Control', 'assets, max-age=604800')
-  res.send(response);
-});
+app.use(function (req, res, next) {
 
-// tiny trick to stop server during local development
+  const selectedRoute = routes.find(route => {
+    const match = matchPath(req.path, route);
+    return match;
+  });
 
-app.get('/exit', (req, res) => {
-  if (process.env.PORT) {
-    res.send("Sorry, the server denies your request")
+  if (selectedRoute) {
+    const { preloadedState, content } = ssr(req, initialState);
+    const response = template("Server Rendered Page", preloadedState, content);
+    res.setHeader('Cache-Control', 'assets, max-age=604800');
+    res.send(response);
   } else {
-    res.send("shutting down")
-    process.exit(0)
+    next();
   }
 
 });
+
+
+// app.get('/', (req, res) => {
+//   const { preloadedState, content } = ssr(req, initialState)
+//   const response = template("Server Rendered Page", preloadedState, content)
+//   res.setHeader('Cache-Control', 'assets, max-age=604800')
+//   res.send(response);
+// });
+
+// // Pure client side rendered page
+// app.get('/client', (req, res) => {
+//   let response = template('Client Side Rendered page')
+//   res.setHeader('Cache-Control', 'assets, max-age=604800')
+//   res.send(response);
+// });
+
+// // tiny trick to stop server during local development
+
+// app.get('/exit', (req, res) => {
+//   if (process.env.PORT) {
+//     res.send("Sorry, the server denies your request")
+//   } else {
+//     res.send("shutting down")
+//     process.exit(0)
+//   }
+
+// });
